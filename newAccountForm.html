@@ -1,0 +1,70 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>New Account Creation Form</title>
+<link href="jquery-ui.css" rel="stylesheet">
+<style>
+body{
+    font-family: "Trebuchet MS", sans-serif;
+    margin: 50px;
+}
+#email, #password1, #password2{
+        background-color: rgb(120, 255, 0); 
+    }
+    #submit{
+        background-color: rgb(255, 255, 25); 
+    }
+</style>
+</head>
+<body>
+<h1 class="ui-state-default ui-corner-all ui-helper-clearfix" style="padding:4px; width: 40%;background: #00eeff">New Account Creation Form</h1>
+<form id="new-account-form">
+<p><input id="email" type="email" size="30" name="email" value="" placeholder="Enter your email address"></p>
+<p><input id="password1" type="password" size="30" name="password1" value="" placeholder="Enter a password"></p>
+<p><input id="password2" type="password" size="30" name="password2" value="" placeholder="Reenter the password"></p>
+<button id="submit" type="submit">Create Account</button>
+</form>
+<section id='results'>
+</section>
+<!--<p>Form Output: <span id="output"></span></p>-->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+ let em = "";
+
+ function isValidEmail() {
+    em = $.trim($("input[name='email']").val());
+    const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    if (emailPattern.test(em)) {
+        return true;
+    }
+    else {
+        alert ('Please enter valid email'); 
+        return false; 
+    }
+ }
+  function clearResults() {
+     $('section').empty();
+  }
+
+   $(document).on("submit",function(e) {
+        e.preventDefault();
+        clearResults();
+       $('section').append("<p>Form output:<\p>");
+       if (isValidEmail() ) {
+           var emvalue = '<p>' + em + '</p>';
+           $('section').append( emvalue);
+           var password1 = $("input[name='password1']").val();
+           var password2 = $("input[name='password2']").val();
+           if (password1 === password2) {
+               $('section').append('<p>Passwords match</p></span>');
+           } else {
+               $('section').append('<p>Passwords do not match</p>');
+           }
+       }
+   }); 
+      
+</script>
+</body>
+</html>
