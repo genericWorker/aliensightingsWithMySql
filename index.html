@@ -9,6 +9,9 @@
 		font-family: "Trebuchet MS", sans-serif;
 		margin: 50px;
 	}
+	.demoHeaders {
+		margin-top: 2em;
+	}
 	#dialog-link {
 		padding: .4em 1em .4em 20px;
 		text-decoration: none;
@@ -18,9 +21,8 @@
 		margin: 0 5px 0 0;
 		position: absolute;
 		left: .2em;
-		top: 10%;
+		top: 50%;
 		margin-top: -8px;
-	
 	}
 	#icons {
 		margin: 0;
@@ -64,30 +66,11 @@
 	#green .ui-slider-handle { border-color: #8ae234; }
 	#blue .ui-slider-range { background: #729fcf; }
 	#blue .ui-slider-handle { border-color: #729fcf; }
-	th, td, p, input {
-		font:14px Verdana;
-	}
-	table, th, td 
-	{
-		border: solid 1px #DDD;
-		border-collapse: collapse;
-		padding: 2px 3px;
-		text-align: center;
-	}
-	th {
-		font-weight:bold;
-	}
-	tr:nth-child(even) {
-		background-color: #fafff0;
-	}
-	tr:nth-child(odd) {
-		background-color: #00eeff;
-	}
 	</style>
 </head>
 <body>
 	<form>
-	<img src="images/aliens.png" width=200 height=100 style="margin-left: 130px;">
+	<img src="images/aliens.png" width=200 height=100 style="margin-left: 125px;">
 	<h1 class="ui-state-default ui-corner-all ui-helper-clearfix" style="padding:4px; width: 40%;">
 Alien Sighting Form</h1>
 <h3 class="ui-state-default ui-corner-all ui-helper-clearfix" style="padding:4px; width: 40%;background: #00eeff">
@@ -112,29 +95,28 @@ Sighting Date</h3>
 
 <!-- Slider -->
 <h3 class="ui-state-default ui-corner-all ui-helper-clearfix" style="padding:4px; width: 40%; background: #00eeff">
-<label for="weight">Alien Weight (kg)</label></h3>
-<input type="text" id="weight" readonly style="border:0; color:#f6931f; font-weight:bold;">
+<label for="amount">Alien Weight (kg)</label></h3>
+<input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
 <div id="slider" style="background: red; width:40%;"></div>
 
 <!-- Slider -->
-<h3 class="ui-state-default ui-corner-all ui-helper-clearfix" style="padding:4px; width: 40%; background: #00eeff">
-	<label for="height">Alien Height (m)</label></h3>
+<h3 class="ui-state-default ui-corner-all ui-helper-clearfix" style="padding:4px; width: 40%; background: #00eeff"><label for="height">Alien Height (m)</label></h3>
 <input type="text" id="height" readonly style="border:0; color:#f6931f; font-weight:bold;">
 <div id="slider2" style="background: red; width:40%;"></div>
 
-<!-- Spinner -->
+<!-- Spinner --> 
 <h3 class="ui-state-default ui-corner-all ui-helper-clearfix" style="padding:4px; width: 40%; background:#00eeff">
  Number of Eyes</h3>
-<input id="spinnereyes" value=5>
+<input id="spinnereyes" >
 
 <!-- Spinner -->
 <h3 class="ui-state-default ui-corner-all ui-helper-clearfix" style="padding:4px; width: 40%; background:#00eeff">Number of Arms</h3>
-<input id="spinnerarms"  value=0>
+<input id="spinnerarms">
 
 <!-- Spinner -->
 <h3 class="ui-state-default ui-corner-all ui-helper-clearfix" style="padding:4px; width: 40%; background:#00eeff">
 Number of Legs</h3>
-<input id="spinnerlegs"  value=5>
+<input id="spinnerlegs">
 
 
 <h3 class="ui-state-default ui-corner-all ui-helper-clearfix" style="padding:4px; width: 40%; background: #00eeff">
@@ -144,28 +126,179 @@ Color of Creature
   <div id="red"></div>
   <div id="green"></div>
   <div id="blue"></div>
-
+   
   <div id="swatch" class="ui-widget-content ui-corner-all"></div>
   <br>
   <br>
   <p>
   <button id="dialog-link" class="ui-button ui-corner-all ui-widget">Submit</button>
-  <button id="history-link" class="ui-button ui-corner-all ui-widget">History</button>
 </p>
-
+  
 <!-- ui-dialog -->
 <div id="dialog" title="Thank you!">
-	<p style="font-family:roboto">Your sighting has been reported.<br>Keep watching!</p>
-	<img src="images/alien2.png" width=50 height=50>
-	<div id="results" style="width: 800px; height: 500px"></div>
-</div>
 
+	<p style=font-family:roboto>Your sighting has been reported.<br>Keep watching!</p>
+	<img src="images/alien2.png" width=50 height=50>
+	<div id="results"></div>
+</div>
 </form>
 <script src="external/jquery/jquery.js"></script>
 <script src="jquery-ui.js"></script>
-<script src="alienSiting.js">
+<script>
+/* 
+	function handleFormSubmit(event) {
+		event.preventDefault();
+		
+		const dt = $("#datepicker").val();
+		const creatureType = $("#creatureType :radio:checked").attr('id');
+		const weight = $("#slider").slider("option", "value");
+        const height = $("#slider2").slider("option", "value");
+		const numberEyes = $("#spinnereyes").spinner("value"); 
+		const numberArms = $("#spinnerarms").spinner("value"); 
+		const numberLegs = $("#spinnerlegs").spinner("value"); 
+		const json = "{sitingDate:" + dt + "," + "creatureType:" + creatureType + "," + "weight:" + weight + "," + "height:" + height +  "," + "numberOfEyes:" + numberEyes + "," +  "numberOfArms:" + numberArms  + "," +  "numberOfLegs :" + numberLegs + "," +
+		"color:" + 	$( "#swatch" ).css("background-color") + "}";
+		const heading = "<h4>Alien Sighting Report Json Data<h4>"
+		results.innerHTML = heading + json;
+	}
+
+	$( function() {
+		// initialize these
+	  $("#spinnereyes").spinner({min: 0, max:100});
+	  $( "#spinnerarms" ).spinner({min: 0, max:117});
+	  $( "#spinnerlegs" ).spinner({min: 0, max:21, value: 17}); 
+	});
+	*/ 
+	</script>
+<script>
+
+$("#slider-range-max1").slider({
+      range: "max",
+      min: 1,
+      max: 500,
+      value: 20,
+      slide: function( event, ui ) {
+        $( "#amount" ).val( "Weight: " + ui.value  + " kg");
+      }
+    });
+    $("#amount" ).val("Weight: " +  20 + " kg");
+
+
+$( "#button" ).button();
+$( "#button-icon" ).button({
+	icon: "ui-icon-gear",
+	showLabel: false
+});
+
+$( "#radioset" ).buttonset();
+
+$( "#dialog" ).dialog({
+	autoOpen: false,
+	width: 400,
+	buttons: [
+		{
+			text: "Ok",
+			click: function() {
+				$( this ).dialog( 'option', 'hide', 'explode' );
+				$( this ).dialog( "close" );
+			}
+		},
+		{
+			text: "Cancel",
+			click: function() {
+				$( this ).dialog( 'option', 'hide', 'blind' );
+				$( this ).dialog( "close" );
+			}
+		}
+	]
+});
+
+// Link to open the dialog
+$( "#dialog-link" ).click(function( event ) {
+//	event.preventDefault();
+	$( "#dialog" ).dialog( "open" );
+	handleFormSubmit(event); 
+});
+
+$( "#datepicker" ).datepicker({
+	inline: true
+});
+
+$("#slider" ).slider({
+      range: "max",
+      min: 1,
+      max: 500,
+      value: 20,
+      slide: function( event, ui ) {
+        $( "#amount" ).val( "Weight: " + ui.value  + " kg");
+	  }
+}); 
+
+
+$("#slider2").slider({
+      range: "max",
+      min: 1,
+      max: 20,
+      value: 2,
+      slide: function( event, ui ) {
+        $( "#height" ).val( "Height: " + ui.value  + " m");
+	  }
+}); 
+$("#height" ).val("Height: " +  2 + " m");
+
+$( "input[type='radio']" ).checkboxradio({icon: false});
+
+$("#tooltip").tooltip();
+
+
+// Hover states on the static widgets
+$( "#dialog-link, #icons li" ).hover(
+	function() {
+		$( this ).addClass( "ui-state-hover" );
+	},
+	function() {
+		$( this ).removeClass( "ui-state-hover" );
+	}
+);
 </script>
-<script src="./node_modules/axios/dist/axios.min.js"></script>
-<script src="./getTableFromJson.js"></script>
+<script>
+	$( function() {
+	  function hexFromRGB(r, g, b) {
+		var hex = [
+		  r.toString( 16 ),
+		  g.toString( 16 ),
+		  b.toString( 16 )
+		];
+		$.each( hex, function( nr, val ) {
+		  if ( val.length === 1 ) {
+			hex[ nr ] = "0" + val;
+		  }
+		});
+		return hex.join( "" ).toUpperCase();
+	  }
+	  function refreshSwatch() {
+		var red = $( "#red" ).slider( "value" ),
+		  green = $( "#green" ).slider( "value" ),
+		  blue = $( "#blue" ).slider( "value" ),
+		  hex = hexFromRGB( red, green, blue );
+		$( "#swatch" ).css( "background-color", "#" + hex );
+	  }
+   
+	  $( "#red, #green, #blue" ).slider({
+		orientation: "horizontal",
+		range: "min",
+		max: 255,
+		value: 127,
+		slide: refreshSwatch,
+		change: refreshSwatch
+	  });
+	  $( "#red" ).slider( "value", 255 );
+	  $( "#green" ).slider( "value", 140 );
+	  $( "#blue" ).slider( "value", 60 );
+	} );
+	</script>
+	<script src="getTableFromJson.js"></script>
+	<script src="alienSiting.js"></script>
+	<script src="node_modules/axios/dist/axios.min.js"></script>
 </body>
 </html>

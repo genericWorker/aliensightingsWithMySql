@@ -25,7 +25,7 @@ function handleFormSubmit(event) {
     //  Copy json text to an h4
     const heading = "<h4 className=\"ui-state-default ui-corner-all ui-helper-clearfix\" style=\"padding:4px; background: #999f29;\">Alien Sighting Report Json Data<h4>"
    
-  console.log(JSON.parse(json)); 
+ // console.log(JSON.parse(json)); 
 
   insertSighting(siteReport);
   //  After insert retrieve the sightings,
@@ -34,7 +34,7 @@ function handleFormSubmit(event) {
 }
 
 const getSightings = () => {
-  axios.get('http://localhost:3001/api/get')
+  axios.get('http://localhost:3001/api/getSitings')
   .then(response => {
    const sitings = response.data;
    console.log(sitings); 
@@ -94,7 +94,8 @@ $("#radioset" ).buttonset();
 
 $( "#dialog" ).dialog({
 autoOpen: false,
-width: 400,
+width: 600,
+height: 400,
 buttons: [
     {
         text: "Ok",
